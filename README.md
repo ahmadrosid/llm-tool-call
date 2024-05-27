@@ -55,5 +55,6 @@ Anthropic:
 
 OpenAI:
 - Documentation: https://platform.openai.com/docs/guides/function-calling
+- Cookbook: https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models
 - Code source example: https://platform.openai.com/docs/guides/function-calling?lang=node.js
 
