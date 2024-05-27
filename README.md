@@ -47,3 +47,13 @@ Run anthropic example.
 node run anthropic.js
 ```
 
+## Reference
+
+Anthropic:
+- Documentation: https://docs.anthropic.com/en/docs/tool-use
+- Github code example: https://github.com/anthropics/anthropic-sdk-typescript/blob/main/examples/tools.ts
+
+OpenAI:
+- Documentation: https://platform.openai.com/docs/guides/function-calling
+- Code source example: https://platform.openai.com/docs/guides/function-calling?lang=node.js
+
