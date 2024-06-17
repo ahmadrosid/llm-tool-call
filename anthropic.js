@@ -35,6 +35,7 @@ const tools = [
   },
 ];
 
+
 async function runConversation() {
   const userMessage = {
     role: "user",
@@ -55,29 +56,49 @@ async function runConversation() {
   if (message.stop_reason === "tool_use") {
     const tool = message.content.find((content) => content.type === "tool_use");
 
+    console.log(JSON.stringify(
+      { role: message.role, content: message.content }));
+    process.exit(1);
+
     if (tool) {
       const functionArgs = tool.input;
       const functionResponse = await getMarkdownContentFromUrl(
         functionArgs.url
       );
 
+      const newMessages = [
+        userMessage,
+        { role: message.role, content: message.content },
+        {
+          role: "user",
+          content: [
+            {
+              type: "tool_result",
+              tool_use_id: tool.id,
+              content: [{ type: "text", text: functionResponse }],
+            },
+          ],
+        },
+      ];
+
+      console.log(JSON.stringify({
+        role: "user",
+        content: [
+          {
+            type: "tool_result",
+            tool_use_id: tool.id,
+            content: [{ type: "text", text: functionResponse }],
+          },
+        ],
+      }));
+
+      console.dir(newMessages, { depth: 4 });
+      process.exit(1);
+
       const result = await anthropic.beta.tools.messages.create({
         model: "claude-3-opus-20240229",
         max_tokens: 1024,
-        messages: [
-          userMessage,
-          { role: message.role, content: message.content },
-          {
-            role: "user",
-            content: [
-              {
-                type: "tool_result",
-                tool_use_id: tool.id,
-                content: [{ type: "text", text: functionResponse }],
-              },
-            ],
-          },
-        ],
+        messages: newMessages,
         tools,
       });
 
